@@ -1,5 +1,5 @@
 # EFINet
-Usage: 
+## Usage
 
 The test results will be saved at "data/result".
 ```key
