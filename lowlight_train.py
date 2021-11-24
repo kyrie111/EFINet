@@ -17,17 +17,15 @@ from utils import *
 from utils.print_time import print_time
 import csv
 import math
-# from torch.utils.tensorboard import SummaryWriter
 
 
-# 定义参数初始化函数
 def weights_init(m):
     classname = m.__class__.__name__
     if classname.find('Conv') != -1:
-        nn.init.normal_(m.weight.data, 0.0, 0.02)  # 随机初始化采用正态分布，均值为0，标准差为0.02.
+        nn.init.normal_(m.weight.data, 0.0, 0.02)  
     elif classname.find('BatchNorm') != -1:
         nn.init.normal_(m.weight.data, 1.0, 0.02)
-        nn.init.constant_(m.bias.data, 0)  # 将偏差定义为常量0
+        nn.init.constant_(m.bias.data, 0) 0
 
 
 def train(config):
@@ -36,14 +34,7 @@ def train(config):
     train_gth_path = config.data_path + 'fivek_sp/mini_train_gth/'
     val_gth_path = config.data_path + 'fivek_sp/mini_val_gth/'
 
-    # val_result_path = 'data_val/'
-    # if not os.path.exists(val_result_path):
-    #     os.makedirs(val_result_path)
-
     os.environ['CUDA_VISIBLE_DEVICES'] = '0'
-
-    # tensorboard
-    # tb = SummaryWriter()
 
     EFINet = model.Enhancement_Fusion_Iterative_Net().cuda()
 
@@ -76,24 +67,6 @@ def train(config):
 
     # 定义优化器
     optimizer = torch.optim.Adam(EFINet.parameters(), lr=config.start_lr, weight_decay=config.weight_decay)
-
-    # warm_up_epochs = 5
-    # warm_up_with_cosine_lr = lambda epoch: (epoch + 1) / (warm_up_epochs) if epoch < warm_up_epochs \
-    #     else 0.5 * (math.cos((epoch - warm_up_epochs) / (config.num_epochs - warm_up_epochs) * math.pi) + 1)
-    # scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda=warm_up_with_cosine_lr)
-    # scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode='min', factor=0.6, patience=5, min_lr=0.0001)
-
-    # get some random training images
-    # dataiter = iter(train_data_loader)
-    # i_name, i_dark, i_gth = dataiter.next()
-
-    # create grid of images
-    # dark_img_grid = torchvision.utils.make_grid(i_dark)
-    # gth_img_grid = torchvision.utils.make_grid(i_gth)
-
-    # write to tensorboard
-    # tb.add_image('img_input', dark_img_grid)
-    # tb.add_image('img_gth', gth_img_grid)
 
     # 保存训练trainloss
     f1 = open('trainLossLog.csv', 'w', encoding='utf-8', newline='' "")
@@ -154,11 +127,6 @@ def train(config):
                 csv_writer1.writerow(
                     [loss_mae.item(), loss_color.item(), loss_ssim.item(), loss_vgg.item(), loss.item()])
                 print_time(start_time, index, config.num_epochs, len(train_data_loader), epoch)
-                # create grid of images
-                train_result_grid = torchvision.utils.make_grid(enhanced_image3)
-                # write to tensorboard
-                # tb.add_image('train_result', train_result_grid)
-                # tb.add_scalar('image training loss', loss, epoch * len(train_data_loader) + index)
             
             loss = loss / config.accumulation_steps
             loss.backward()
@@ -170,12 +138,8 @@ def train(config):
             if ((index + 1) % config.snapshot_iter) == 0:
                 torch.save(EFINet.state_dict(), config.snapshots_folder + "Epoch" + str(epoch + 1) + '.pth')
 
-        # train_loss = train_loss / len(train_data_loader)
         optimizer.zero_grad()
         optimizer.step()
-        # print("the lr of %d epoch:%f" % (epoch, optimizer.param_groups[0]['lr']))
-        # scheduler.step()
-        # print("the new_lr of %d epoch:%f" % (epoch, optimizer.param_groups[0]['lr']))
 
         # eval
         val_loss = 0
@@ -223,7 +187,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
     # Input Parameters
-    parser.add_argument('--data_path', type=str, default="/home/liu/wufanding/data/")
+    parser.add_argument('--data_path', type=str, default="data/")
     parser.add_argument('--start_lr', type=float, default=0.0001)
     parser.add_argument('--weight_decay', type=float, default=0.0001)
     parser.add_argument('--grad_clip_norm', type=float, default=0.1)
