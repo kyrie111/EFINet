@@ -1,6 +1,8 @@
-# EFINet
-## Usage
+# EFINet: Restoration for Low-light Images via Enhancement-Fusion Iterative Network
+## Pytorch
+Pytorch implementation of EFINet.
 
+## Usage
 The test results will be saved at "data/result".
 ```key
 python lowlight_test.py
