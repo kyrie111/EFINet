@@ -1,6 +1,8 @@
 # EFINet
-Usage: Three pretrained model "CEN" , "FEN" and "RCN" are provided in google drive. The test results will be saved at "eval/result". You can test any image by changing ``parser.add_argument('--data_url', type=str, default=r'../dataset/real-world', help=' path of dataset')`` in eval.py
+Usage: 
 
+The test results will be saved at "data/result".
 ```key
 python lowlight_test.py
 ```  
+The script will process the images in the sub-folders of "test_data" folder and make a new folder "result" in the "data". You can find the enhanced images in the "result" folder.
