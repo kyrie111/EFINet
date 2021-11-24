@@ -68,14 +68,14 @@ def train(config):
     # 定义优化器
     optimizer = torch.optim.Adam(EFINet.parameters(), lr=config.start_lr, weight_decay=config.weight_decay)
 
-    # 保存训练trainloss
-    f1 = open('trainLossLog.csv', 'w', encoding='utf-8', newline='' "")
-    csv_writer1 = csv.writer(f1)
-    csv_writer1.writerow(["loss_mae", "loss_color", "loss_ssim", "loss_vgg", "total_loss"])
-    # 保存训练trainloss
-    f2 = open('valLossLog.csv', 'w', encoding='utf-8', newline='' "")
-    csv_writer2 = csv.writer(f2)
-    csv_writer2.writerow(["loss_mae", "loss_color", "loss_ssim", "loss_vgg", "total_loss"])
+    # # 保存训练trainloss
+    # f1 = open('trainLossLog.csv', 'w', encoding='utf-8', newline='' "")
+    # csv_writer1 = csv.writer(f1)
+    # csv_writer1.writerow(["loss_mae", "loss_color", "loss_ssim", "loss_vgg", "total_loss"])
+    # # 保存训练trainloss
+    # f2 = open('valLossLog.csv', 'w', encoding='utf-8', newline='' "")
+    # csv_writer2 = csv.writer(f2)
+    # csv_writer2.writerow(["loss_mae", "loss_color", "loss_ssim", "loss_vgg", "total_loss"])
 
     EFINet.train()
     # start training
@@ -89,15 +89,11 @@ def train(config):
         for name, dark_image, gt_image in train_data_loader:
             index = index + 1
 
-            if index == 1:
-                for i in range(3):
-                    n = 'E%d_%s.jpg' % (epoch + 1, name[i])
-                    torchvision.utils.save_image(dark_image[i], 'dark_input/' + n)
-
-            if index == 1:
-                for i in range(3):
-                    n = 'E%d_%s.jpg' % (epoch + 1, name[i])
-                    torchvision.utils.save_image(gt_image[i], 'gt_input/' + n)
+            # if index == 1:
+            #     for i in range(3):
+            #         n = 'E%d_%s.jpg' % (epoch + 1, name[i])
+            #         torchvision.utils.save_image(dark_image[i], 'dark_input/' + n)
+            #         torchvision.utils.save_image(gt_image[i], 'gt_input/' + n)
 
             dark_image = dark_image.cuda()
             gt_image = gt_image.cuda()
@@ -106,12 +102,12 @@ def train(config):
             Initial_enhanced_image1, enhanced_image1 = EFINet(dark_image)
             Initial_enhanced_image2, enhanced_image2 = EFINet(enhanced_image1)
             Initial_enhanced_image3, enhanced_image3 = EFINet(enhanced_image2)
-            enhanced_image = [enhanced_image1, enhanced_image2, enhanced_image3]
+            # enhanced_image = [enhanced_image1, enhanced_image2, enhanced_image3]
 
-            if index == 1:
-                for i in range(3):
-                    n = 'E%d_%s.jpg' % (epoch + 1, name[i])
-                    torchvision.utils.save_image(enhanced_image3[i], 'train_test/' + n)
+            # if index == 1:
+            #     for i in range(3):
+            #         n = 'E%d_%s.jpg' % (epoch + 1, name[i])
+            #         torchvision.utils.save_image(enhanced_image3[i], 'train_test/' + n)
 
             loss_mae = L_mae(enhanced_image3, gt_image)
             loss_color = L_color(enhanced_image3, gt_image)
@@ -120,12 +116,11 @@ def train(config):
 
             # train loss
             loss = 3 * loss_color + loss_mae + loss_ssim + loss_vgg
-            # train_loss = train_loss + loss.item()
 
             if np.mod(index, config.itr_to_excel) == 0:
                 print('epoch %d, %03d/%d, loss: %f' % (epoch + 1, index, len(train_data_loader), loss.item()))
-                csv_writer1.writerow(
-                    [loss_mae.item(), loss_color.item(), loss_ssim.item(), loss_vgg.item(), loss.item()])
+                # csv_writer1.writerow(
+                #     [loss_mae.item(), loss_color.item(), loss_ssim.item(), loss_vgg.item(), loss.item()])
                 print_time(start_time, index, config.num_epochs, len(train_data_loader), epoch)
             
             loss = loss / config.accumulation_steps
@@ -164,10 +159,6 @@ def train(config):
                 loss = 3 * loss_color + loss_mae + loss_ssim + loss_vgg
 
                 if np.mod(index, config.itr_to_excel) == 0:
-                    csv_writer2.writerow(
-                        [loss_mae.item(), loss_color.item(), loss_ssim.item(), loss_vgg.item(), loss.item()])
-                    for n in name:
-                        torchvision.utils.save_image(enhanced_image3, val_result_path + n + '_' + str(epoch) + '.jpg')
                     print('val loss = {}\n'.format(loss.item()))
 
                 val_loss = val_loss + loss.item()
@@ -178,8 +169,8 @@ def train(config):
             torch.save(EFINet.state_dict(), config.snapshots_folder + 'BestEpoch.pth')
             print('saving the best epoch %d model with %.5f' % (epoch + 1, min_loss))
 
-    f1.close()
-    f2.close()
+    # f1.close()
+    # f2.close()
 
 
 if __name__ == "__main__":
