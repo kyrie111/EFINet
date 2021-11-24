@@ -3,13 +3,12 @@
 Pytorch implementation of EFINet.
 
 ## Requirements
-python 3.7
-
-torch 1.4.0
-torchvision 0.2.1
-cuda 10.1
-numpy
-opencv
+1.python 3.7
+2.torch 1.4.0
+3.torchvision 0.2.1
+4.cuda 10.1
+5.numpy
+6.opencv
 
 ## Usage
 The test results will be saved at "data/result".
