@@ -31,5 +31,8 @@ If you find this work useful for your research, please consider citing our paper
   author={Liu, Chunxiao and Wu, Fanding and Wang, Xun},
   journal={IEEE Transactions on Circuits and Systems for Video Technology}, 
   year={2022},
+  volume={32},
+  number={12},
+  pages={8486-8499},
   doi={10.1109/TCSVT.2022.3195996}}
 ```
