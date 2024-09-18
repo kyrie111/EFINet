@@ -1,6 +1,7 @@
 # EFINet: Restoration for Low-light Images via Enhancement-Fusion Iterative Network
 ## Pytorch
 Pytorch implementation of EFINet.
+<img src=data/EFINet_architecture.png width="50%"/>
 
 ## Requirements
 
