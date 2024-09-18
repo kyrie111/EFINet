@@ -4,26 +4,28 @@ Pytorch implementation of EFINet.
 
 ## Requirements
 
-1.python 3.7  
-2.torch 1.4.0  
-3.torchvision 0.2.1  
-4.cuda 10.1  
-5.numpy  
-6.opencv  
+```
+python 3.7  
+torch 1.4.0  
+torchvision 0.2.1  
+cuda 10.1  
+numpy  
+opencv
+```
 
 ## Usage
 
-The test results will be saved at "data/result".
+The test results will be saved at `data/result`.
 
 ```key
 python lowlight_test.py
 ```
 
-The script will process the images in the sub-folders of "test_data" folder and make a new folder "result" in the "data". You can find the enhanced images in the "result" folder.
+The script processes images located in the subfolders of the `test_data` directory and creates a new `result` folder within the `data` directory. The enhanced images will be available in the `result` folder.
 
 ## Citation
 
-If you find this work useful for your research, please consider citing our paper:
+If you find this work useful for your research, please consider citing our paper
 
 ```
 @ARTICLE{liu2022efinet,
