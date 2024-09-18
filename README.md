@@ -2,7 +2,7 @@
 ## Pytorch
 Pytorch implementation of EFINet.
 
-<img src=data/EFINet_architecture.png width="70%"/>
+<img src=data/EFINet_architecture.png width="85%"/>
 
 ## Requirements
 
