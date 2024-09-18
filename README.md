@@ -16,7 +16,7 @@ opencv
 
 ## Usage
 
-The test results will be saved at `data/result`.
+The results will be saved at `data/result`.
 
 ```key
 python lowlight_test.py
