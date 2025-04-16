@@ -24,7 +24,7 @@ def lowlight(image_path):
     data_lowlight = data_lowlight.permute(2, 0, 1)
     data_lowlight = data_lowlight.cuda().unsqueeze(0)
 
-    EFINet = model.K_Estimate_net().cuda()
+    EFINet = model.Enhancement_Fusion_Iterative_Net().cuda()
     EFINet.load_state_dict(torch.load('snapshots/BestEpoch.pth'))
     start = time.time()
     _, enhanced_image1 = EFINet(data_lowlight)
