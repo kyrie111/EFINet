@@ -21,17 +21,6 @@ This repository contains the **official PyTorch implementation** of EFINet, a li
 
 ---
 
-## Table of Contents
-
-- [Highlights](#highlights)
-- [Installation](#installation)
-- [Quick Start: Inference](#quick-start-inference)
-- [Training](#training)
-- [Repository Structure](#repository-structure)
-- [Citation](#citation)
-- [Contact](#contact)
-- [License](#license)
-
 ## Highlights
 
 - **Iterative enhancement-fusion design** that progressively refines low-light images through repeated passes.
